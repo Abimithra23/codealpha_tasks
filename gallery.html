@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Image Gallery</title>
+  <link rel="stylesheet" href="gallery.css" />
+</head>
+<body>
+
+  <header>
+    <h1>Photo Gallery</h1>
+    <nav class="filters">
+      <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="nature">Nature</button>
+      <button class="filter-btn" data-filter="city">City</button>
+      <button class="filter-btn" data-filter="abstract">Abstract</button>
+    </nav>
+  </header>
+
+  <main>
+    <div class="gallery" id="gallery">
+
+      <div class="card" data-category="nature">
+        <img src="https://picsum.photos/seed/forest1/600/400" alt="Forest path" loading="lazy" />
+        <div class="overlay"><span>Forest Path</span></div>
+      </div>
+
+      <div class="card" data-category="city">
+        <img src="https://picsum.photos/seed/city2/600/400" alt="City lights" loading="lazy" />
+        <div class="overlay"><span>City Lights</span></div>
+      </div>
+
+      <div class="card" data-category="abstract">
+        <img src="https://picsum.photos/seed/abstract3/600/400" alt="Abstract waves" loading="lazy" />
+        <div class="overlay"><span>Abstract Waves</span></div>
+      </div>
+
+      <div class="card" data-category="nature">
+        <img src="https://picsum.photos/seed/mountain4/600/400" alt="Mountain lake" loading="lazy" />
+        <div class="overlay"><span>Mountain Lake</span></div>
+      </div>
+
+      <div class="card" data-category="city">
+        <img src="https://picsum.photos/seed/bridge5/600/400" alt="Night bridge" loading="lazy" />
+        <div class="overlay"><span>Night Bridge</span></div>
+      </div>
+
+      <div class="card" data-category="abstract">
+        <img src="https://picsum.photos/seed/color6/600/400" alt="Color burst" loading="lazy" />
+        <div class="overlay"><span>Color Burst</span></div>
+      </div>
+
+      <div class="card" data-category="nature">
+        <img src="https://picsum.photos/seed/beach7/600/400" alt="Sandy beach" loading="lazy" />
+        <div class="overlay"><span>Sandy Beach</span></div>
+      </div>
+
+      <div class="card" data-category="city">
+        <img src="https://picsum.photos/seed/street8/600/400" alt="Street art" loading="lazy" />
+        <div class="overlay"><span>Street Art</span></div>
+      </div>
+
+      <div class="card" data-category="abstract">
+        <img src="https://picsum.photos/seed/geo9/600/400" alt="Geometry" loading="lazy" />
+        <div class="overlay"><span>Geometry</span></div>
+      </div>
+
+    </div>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Image viewer" hidden>
+      <button class="lb-close" id="lb-close" aria-label="Close">&#x2715;</button>
+      <button class="lb-nav lb-prev" id="lb-prev" aria-label="Previous">&#10094;</button>
+      <div class="lb-content">
+        <img id="lb-img" src="" alt="" />
+        <p id="lb-caption"></p>
+      </div>
+      <button class="lb-nav lb-next" id="lb-next" aria-label="Next">&#10095;</button>
+    </div>
+
+  </main>
+
+  <script src="gallery.js"></script>
+</body>
+</html>
