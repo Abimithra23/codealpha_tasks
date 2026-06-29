@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Profile – VibeStore</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo">Vibe<span>Store</span></a>
+  <div class="nav-links">
+    <a href="index.html">Browse</a>
+    <a href="profile.html">Profile</a>
+    <a href="#" onclick="logout()" class="btn-nav">Logout</a>
+  </div>
+</nav>
+
+<div class="profile-header">
+  <div class="profile-avatar" id="profile-avatar">👤</div>
+  <h2 id="profile-name">User</h2>
+  <p id="profile-email">user@example.com</p>
+</div>
+
+<div class="section">
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="liked" onclick="switchTab('liked')">♥ Liked</button>
+    <button class="tab-btn" data-tab="fav" onclick="switchTab('fav')">★ Favourites</button>
+    <button class="tab-btn" data-tab="recent" onclick="switchTab('recent')">🕐 Recently Played</button>
+  </div>
+
+  <div class="tab-content active" id="tab-liked">
+    <div id="liked-list"></div>
+  </div>
+
+  <div class="tab-content" id="tab-fav">
+    <div id="fav-list"></div>
+  </div>
+
+  <div class="tab-content" id="tab-recent">
+    <div id="recent-list"></div>
+  </div>
+</div>
+
+<!-- Mini Player -->
+<div class="mini-player" id="mini-player" style="display:none">
+  <div class="player-info">
+    <div class="player-icon" id="player-emoji">🎵</div>
+    <div>
+      <div class="player-title" id="player-title">Song Title</div>
+      <div class="player-artist" id="player-artist">Artist</div>
+    </div>
+  </div>
+  <div class="player-controls">
+    <button title="Previous">⏮</button>
+    <button title="Play/Pause">⏸</button>
+    <button title="Next">⏭</button>
+    <button title="Volume">🔊</button>
+  </div>
+</div>
+
+<footer>© 2026 VibeStore. All rights reserved.</footer>
+
+<script src="app.js"></script>
+<script>
+  const user = getUser();
+  if (!user) window.location.href = 'login.html';
+
+  document.getElementById('profile-name').textContent = user ? user.name : 'User';
+  document.getElementById('profile-email').textContent = user ? user.email : '';
+
+  renderSongList('liked-list', getLiked());
+  renderSongList('fav-list', getFav());
+  renderSongList('recent-list', getRecent());
+</script>
+</body>
+</html>

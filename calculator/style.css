@@ -1,0 +1,135 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.calculator {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 24px;
+  padding: 24px;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5);
+  width: 320px;
+}
+
+/* Display */
+.display {
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 16px;
+  padding: 16px 20px;
+  margin-bottom: 20px;
+  min-height: 90px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-end;
+  gap: 4px;
+  overflow: hidden;
+}
+
+.expression {
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 14px;
+  min-height: 20px;
+  word-break: break-all;
+  text-align: right;
+}
+
+.result {
+  color: #fff;
+  font-size: 40px;
+  font-weight: 300;
+  letter-spacing: 1px;
+  word-break: break-all;
+  text-align: right;
+  transition: font-size 0.1s;
+}
+
+/* Grid */
+.buttons {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+/* Buttons */
+.btn {
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  font-size: 18px;
+  height: 60px;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.1s, box-shadow 0.15s;
+  outline: none;
+  user-select: none;
+}
+
+.btn:hover {
+  background: rgba(255, 255, 255, 0.16);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.btn:active, .btn.pressed {
+  transform: scale(0.93);
+  background: rgba(255, 255, 255, 0.22);
+}
+
+.span2 {
+  grid-column: span 2;
+}
+
+/* Operator buttons */
+.btn.operator {
+  background: rgba(99, 102, 241, 0.3);
+  border-color: rgba(99, 102, 241, 0.4);
+  color: #a5b4fc;
+  font-size: 20px;
+}
+
+.btn.operator:hover {
+  background: rgba(99, 102, 241, 0.5);
+}
+
+/* Clear buttons */
+.btn.clear {
+  background: rgba(239, 68, 68, 0.2);
+  border-color: rgba(239, 68, 68, 0.3);
+  color: #fca5a5;
+}
+
+.btn.clear:hover {
+  background: rgba(239, 68, 68, 0.4);
+}
+
+/* Equals button */
+.btn.equals {
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  border-color: transparent;
+  color: #fff;
+  font-size: 22px;
+  box-shadow: 0 4px 20px rgba(99, 102, 241, 0.4);
+}
+
+.btn.equals:hover {
+  background: linear-gradient(135deg, #4f46e5, #7c3aed);
+  box-shadow: 0 6px 25px rgba(99, 102, 241, 0.6);
+}
+
+/* Error state */
+.result.error {
+  color: #fca5a5;
+  font-size: 24px;
+}
