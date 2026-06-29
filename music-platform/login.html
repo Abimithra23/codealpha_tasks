@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login – VibeStore</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<div class="auth-container">
+  <div class="auth-card">
+    <h2>Welcome back 🎧</h2>
+    <p>Sign in to access your music library</p>
+
+    <form onsubmit="handleLogin(event)">
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" placeholder="you@example.com" required />
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" placeholder="••••••••" required />
+      </div>
+      <button type="submit" class="btn btn-violet">Sign In</button>
+    </form>
+
+    <div class="auth-footer">
+      Don't have an account? <a href="signup.html">Sign up</a>
+      &nbsp;|&nbsp; <a href="index.html">Back to Browse</a>
+    </div>
+  </div>
+</div>
+
+<script src="app.js"></script>
+<script>
+  // If already logged in, redirect
+  if (getUser()) window.location.href = 'profile.html';
+</script>
+</body>
+</html>
