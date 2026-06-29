@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Checkout – VibeStore</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<nav>
+  <a href="index.html" class="logo">Vibe<span>Store</span></a>
+  <div class="nav-links">
+    <a href="index.html">Browse</a>
+    <a href="profile.html">Profile</a>
+    <a href="#" onclick="logout()" class="btn-nav">Logout</a>
+  </div>
+</nav>
+
+<div class="payment-container">
+  <div class="payment-card">
+    <h2>🛒 Checkout</h2>
+    <p style="color:var(--muted)">Complete your purchase securely</p>
+
+    <div class="order-summary">
+      <div class="order-icon" id="order-emoji">🎵</div>
+      <div>
+        <div class="order-title" id="order-title">Loading...</div>
+        <div class="order-artist" id="order-artist"></div>
+      </div>
+      <div class="order-price" id="order-price">—</div>
+    </div>
+
+    <div style="font-weight:600;margin-bottom:0.75rem">Payment Method</div>
+    <div class="payment-methods">
+      <div class="pay-method selected" data-method="card">💳 Card</div>
+      <div class="pay-method" data-method="upi">📱 UPI</div>
+      <div class="pay-method" data-method="netbanking">🏦 Net Banking</div>
+    </div>
+
+    <form id="payment-form">
+      <div id="card-fields">
+        <div class="form-group">
+          <label>Cardholder Name</label>
+          <input type="text" id="card-name" placeholder="Full name on card" />
+        </div>
+        <div class="form-group">
+          <label>Card Number</label>
+          <input type="text" id="card-number" placeholder="•••• •••• •••• ••••" maxlength="19" />
+        </div>
+        <div style="display:flex;gap:1rem">
+          <div class="form-group" style="flex:1">
+            <label>Expiry</label>
+            <input type="text" placeholder="MM/YY" maxlength="5" />
+          </div>
+          <div class="form-group" style="flex:1">
+            <label>CVV</label>
+            <input type="text" placeholder="•••" maxlength="3" />
+          </div>
+        </div>
+      </div>
+
+      <hr class="divider" />
+      <div class="total-row">
+        <span>Total</span>
+        <span class="total-amount" id="total-amount">—</span>
+      </div>
+      <button type="submit" class="btn btn-violet" id="pay-btn" style="width:100%;font-size:1rem;padding:0.9rem">
+        Pay Now 🔒
+      </button>
+      <div class="error-msg" id="error-msg"></div>
+    </form>
+
+    <div style="text-align:center;margin-top:1rem">
+      <a href="index.html" style="color:var(--muted);font-size:0.85rem;text-decoration:none">← Cancel</a>
+    </div>
+  </div>
+</div>
+
+<!-- Success Modal -->
+<div class="overlay" id="success-overlay">
+  <div class="modal-box">
+    <div class="icon">✅</div>
+    <h3>Purchase Successful!</h3>
+    <p id="success-msg">Your track is now in your library.</p>
+    <button class="btn btn-violet" onclick="window.location.href='profile.html'">View Library</button>
+    <br/><br/>
+    <a href="index.html" style="color:var(--muted);font-size:0.85rem;text-decoration:none">Browse more music</a>
+  </div>
+</div>
+
+<div id="toast" class="toast"></div>
+<footer>© 2026 VibeStore. All rights reserved.</footer>
+
+<script src="app.js"></script>
+<script>
+  if (!getUser()) window.location.href = 'login.html';
+
+  const params = new URLSearchParams(window.location.search);
+  const songId = parseInt(params.get('song'));
+  let selectedMethod = 'card';
+
+  // Load song info
+  apiFetch('/songs').then(songs => {
+    const song = songs.find(s => s.id === songId);
+    if (!song) { window.location.href = 'index.html'; return; }
+    document.getElementById('order-emoji').textContent = song.emoji;
+    document.getElementById('order-title').textContent = song.title;
+    document.getElementById('order-artist').textContent = song.artist;
+    document.getElementById('order-price').textContent = '$' + song.price.toFixed(2);
+    document.getElementById('total-amount').textContent = '$' + song.price.toFixed(2);
+  });
+
+  // Payment method toggle
+  document.querySelectorAll('.pay-method').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.pay-method').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      selectedMethod = btn.dataset.method;
+      document.getElementById('card-fields').style.display = selectedMethod === 'card' ? 'block' : 'none';
+    });
+  });
+
+  // Format card number
+  document.getElementById('card-number').addEventListener('input', (e) => {
+    let v = e.target.value.replace(/\D/g, '').substring(0, 16);
+    e.target.value = v.replace(/(.{4})/g, '$1 ').trim();
+  });
+
+  document.getElementById('payment-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = document.getElementById('pay-btn');
+    const err = document.getElementById('error-msg');
+    btn.innerHTML = '<span class="spinner"></span> Processing...';
+    btn.disabled = true;
+    err.textContent = '';
+
+    try {
+      const data = await apiFetch('/purchase', {
+        method: 'POST',
+        body: JSON.stringify({ songId, paymentMethod: selectedMethod })
+      });
+      document.getElementById('success-msg').textContent = data.message;
+      document.getElementById('success-overlay').classList.add('show');
+    } catch (ex) {
+      err.textContent = ex.message;
+      btn.textContent = 'Pay Now 🔒';
+      btn.disabled = false;
+    }
+  });
+</script>
+</body>
+</html>
